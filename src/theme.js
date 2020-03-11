@@ -34,5 +34,9 @@ export const GlobalCss = withStyles({
     '#root': {
       height: '100%',
     },
+    '.MuiBox-root': {
+      height: '100%',
+      paddingBottom: '0 !important',
+    },
   },
 })(() => null);

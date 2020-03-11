@@ -17,16 +17,20 @@ import * as hooks from './hooks';
 
 const maxGuess = 30; 
 const useStyles = theme => ({
+  fillH: {
+    height: '100%',
+  },
   board: {
-    //display: 'flex',
-    //flexFlow: 'column',
+    display: 'flex',
+    flexFlow: 'column',
     height: '100%',
     width: '100%',
     backgroundColor: theme.palette.board,
   },
-  game: {
-    padding: 50,
+  guess: {
+    padding: 20,
     color: theme.palette.gamePrimary,
+    height: '100%',
     fontSize: 30,
     letterSpacing: 3,
   },
@@ -47,42 +51,6 @@ const useStyles = theme => ({
   },
 });
 
-
-function AllMoves(history, guess, classes) {
-  const moveRow = ({ index, style }) => {
-    if ( index < history.length ) 
-      return (<div style={style} className={classes.move}>{history[index]}</div>);
-    else if (index == history.length ) { 
-      return (
-        <div style={style} className={classes.move}>
-          {guess.slice(0, guess.length-1)}
-          <Typography className={classes.lastGuess}>{guess[guess.length-1]}</Typography>
-          {"_".repeat(4 - guess.length)}
-        </div>
-      ); 
-    }
-    else {
-      return (
-        <div style={style} className={classes.move}>
-          <Typography className={classes.noGuess}>____</Typography>
-        </div>
-      );
-    }
-  };
-
-  return (
-    <Paper className={classes.board}>
-      <FixedSizeList 
-        height={400}
-        itemCount={40}
-        itemSize={40}
-        className={classes.game}
-      >
-        {moveRow}
-      </FixedSizeList>
-    </Paper>
-  );
-}
 
 class Game extends React.Component {
 
@@ -156,28 +124,31 @@ class Game extends React.Component {
 
     let moves = history.map((move, step) => {
       return (
-        <Box>
+        <Box className={classes.guess}>
           {move} 
         </Box>
       );
     });
 
     let current = 
-      <Box>
+      <Box className={classes.guess}>
         {guess.slice(0, guess.length-1)}
         <Typography className={classes.lastGuess}>{guess[guess.length-1]}</Typography>
         {"_".repeat(4 - guess.length)}
       </Box>
 
     return (
-      <Grid container spacing={5} justify="flex-start">
+      <Grid container spacing={5} justify="flex-start" className={classes.fillH}>
         <KeyboardEventHandler
           handleKeys={['alphanumeric', 'backspace', 'enter']}
           onKeyEvent={(key, e) => this.handleKey(key)}
         />
         <Box clone order={{xs: 2, sm: 1}}>
           <Grid item xs={12} sm={5}>
-              {AllMoves(history, guess, classes)}
+            <Paper className={classes.board}>
+              {moves}
+              {current}
+            </Paper>
           </Grid>
         </Box>
         <Box clone order={{xs: 1, sm: 2}}>
@@ -191,3 +162,4 @@ class Game extends React.Component {
 }
 
 export default withStyles(useStyles)(Game)
+              //{AllMoves(history, guess, classes)}

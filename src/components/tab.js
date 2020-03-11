@@ -15,21 +15,15 @@ const useStyles = makeStyles(theme => ({
   page: {
     flexGrow: 1,
     backgroundColor: 'transparent',
-    display: 'inline-block',
+    display: 'table',
     height: '100%',
     width: '100%',
-  },
-  table: {
-    height: '100%',
-    width: '100%',
-  },
-  cell: {
-    border: '2px solid black',
-    verticalAlign: 'top',
-    padding: 0,
   },
   tabs: {
     minWidth: 120,
+    width: 'auto',
+    height: '100%',
+    display: 'table-cell'
   },
   tab: {
     '&:active,&:hover': {
@@ -40,9 +34,11 @@ const useStyles = makeStyles(theme => ({
       border: 0,
     },
   },
-  fill: {
+  tabPanel: {
     width: '100%',
     height: '100%',
+    display: 'table-cell',
+    verticalAlign: 'top',
   },
 }));
 
@@ -81,26 +77,20 @@ export default function VerticalTabs(props) {
 
   return (
     <div className={classes.page}>
-      <table className={classes.table}>
-          <td className={classes.cell}>
-                    <Tabs
-                      orientation="vertical"
-                      variant="scrollable"
-                      value={value}
-                      onChange={handleChange}
-                      aria-label="Vertical tabs example"
-                      className={classes.tabs}
-                    >
-                      <Tab className={classes.tab} disableRipple="true" label="Game" value="game" />
-                      <Tab className={classes.tab} disableRipple="true" label="Compete" value="compete" />
-                    </Tabs>
-          </td>
-          <td className={classes.cell}>
-                    <TabPanel className={classes.tabPanel}>
-                      {props.children} 
-                    </TabPanel>
-          </td>
-      </table>
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+        aria-label="Vertical tabs example"
+        className={classes.tabs}
+      >
+        <Tab className={classes.tab} disableRipple="true" label="Game" value="game" />
+        <Tab className={classes.tab} disableRipple="true" label="Compete" value="compete" />
+      </Tabs>
+      <TabPanel className={classes.tabPanel}>
+        {props.children} 
+      </TabPanel>
     </div>
   );
 }
